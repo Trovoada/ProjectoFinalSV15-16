@@ -1,0 +1,2 @@
+C:\Users\packardbell\Documents\5º - Semestre\AVE\Trabalho Final\Git - AVE\ProjectAVE\ProjectAVE\bin\Debug\ProjectAVE.exe.config
+C:\Users\packardbell\Documents\5º - Semestre\AVE\Trabalho Final\Git - AVE\ProjectAVE\ProjectAVE\obj\Debug\ProjectAVE.csprojResolveAssemblyReference.cache
