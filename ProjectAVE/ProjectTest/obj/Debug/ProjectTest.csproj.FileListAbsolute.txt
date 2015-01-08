@@ -1,1 +1,3 @@
 C:\Users\packardbell\Documents\5º - Semestre\AVE\Trabalho Final\Git - AVE\ProjectAVE\ProjectTest\bin\Debug\ProjectTest.exe.config
+C:\Users\packardbell\Documents\5º - Semestre\AVE\Trabalho Final\Git - AVE\workRepo\ProjectAVE\ProjectTest\bin\Debug\ProjectTest.exe.config
+C:\Users\packardbell\Documents\5º - Semestre\AVE\Trabalho Final\Git - AVE\workRepo\ProjectAVE\ProjectTest\obj\Debug\ProjectTest.csprojResolveAssemblyReference.cache

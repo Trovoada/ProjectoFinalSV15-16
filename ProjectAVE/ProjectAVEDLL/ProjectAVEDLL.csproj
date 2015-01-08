@@ -39,7 +39,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="Entities\Proxy.cs" />
+    <Compile Include="Entities\RealSubject.cs" />
+    <Compile Include="Interfaces\Subject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Entities\CallInfo.cs" />
     <Compile Include="Entities\DynamicProxyFactory.cs" />

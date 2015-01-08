@@ -21,7 +21,7 @@ namespace ProjectTest
         }
     }
 
-    class Main
+    class Client
     {
         static void Main(string[] args)
         {

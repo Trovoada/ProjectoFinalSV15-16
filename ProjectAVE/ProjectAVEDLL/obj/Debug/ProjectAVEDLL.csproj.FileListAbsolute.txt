@@ -1,0 +1,5 @@
+C:\Users\packardbell\Documents\5º - Semestre\AVE\Trabalho Final\Git - AVE\workRepo\ProjectAVE\ProjectAVEDLL\obj\Debug\ProjectAVEDLL.csprojResolveAssemblyReference.cache
+C:\Users\packardbell\Documents\5º - Semestre\AVE\Trabalho Final\Git - AVE\workRepo\ProjectAVE\ProjectAVEDLL\bin\Debug\ProjectAVEDLL.dll
+C:\Users\packardbell\Documents\5º - Semestre\AVE\Trabalho Final\Git - AVE\workRepo\ProjectAVE\ProjectAVEDLL\bin\Debug\ProjectAVEDLL.pdb
+C:\Users\packardbell\Documents\5º - Semestre\AVE\Trabalho Final\Git - AVE\workRepo\ProjectAVE\ProjectAVEDLL\obj\Debug\ProjectAVEDLL.dll
+C:\Users\packardbell\Documents\5º - Semestre\AVE\Trabalho Final\Git - AVE\workRepo\ProjectAVE\ProjectAVEDLL\obj\Debug\ProjectAVEDLL.pdb
