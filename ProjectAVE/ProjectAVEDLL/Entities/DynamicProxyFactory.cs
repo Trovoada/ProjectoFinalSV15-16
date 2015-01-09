@@ -39,15 +39,43 @@ namespace ProjectAVE.Entities
                                                 TypeAttributes.Public
                                                );
                 tb.SetParent(type);
+                
+
                 FieldBuilder fbInterceptor = tb.DefineField(
             "interceptor",
             typeof(IInvocationHandler),
             FieldAttributes.Private);
 
-                FieldBuilder fbType = tb.DefineField(
-            "type",
-            typeof(Type),
-            FieldAttributes.Private);
+                FieldBuilder fbReal = tb.DefineField(
+          "real",
+          type,
+          FieldAttributes.Private);
+
+                Type[] parameterTypes = {type, typeof(IInvocationHandler) };
+
+                ConstructorBuilder ctor1 = tb.DefineConstructor(
+            MethodAttributes.Public,
+            CallingConventions.Standard,
+            parameterTypes);
+
+                ILGenerator ctor1IL = ctor1.GetILGenerator();
+                // For a constructor, argument zero is a reference to the new 
+                // instance. Push it on the stack before calling the base 
+                // class constructor. Specify the default constructor of the  
+                // base class (System.Object) by passing an empty array of  
+                // types (Type.EmptyTypes) to GetConstructor.
+
+                ctor1IL.Emit(OpCodes.Ldarg_0);
+                ctor1IL.Emit(OpCodes.Call, typeof(object).GetConstructor(Type.EmptyTypes));
+                ctor1IL.Emit(OpCodes.Ldarg_0);
+                ctor1IL.Emit(OpCodes.Ldarg_1);
+                ctor1IL.Emit(OpCodes.Stfld, fbReal);
+                ctor1IL.Emit(OpCodes.Ldarg_0);
+                ctor1IL.Emit(OpCodes.Ldarg_2);
+                ctor1IL.Emit(OpCodes.Stfld, fbInterceptor);
+                ctor1IL.Emit(OpCodes.Ret);
+                
+
 
 
                 MethodInfo[] ms = type.GetMethods(BindingFlags.Public | BindingFlags.Instance);
@@ -68,20 +96,19 @@ namespace ProjectAVE.Entities
                     // For an instance property, argument zero is the instance. Load the  
                     // instance, then load the private field and return, leaving the 
                     // field value on the stack.
-                    
+
+                    //numberGetIL.Emit(OpCodes.);
                     numberGetIL.Emit(OpCodes.Ret);
                 }
+                Minha a = new Minha(real, interceptor);
+               // a.Ola("adeus");
 
                 Type t = tb.CreateType();
-                return (T1)Activator.CreateInstance(t) ;
+                return (T1)Activator.CreateInstance(t,new object[] {real, interceptor});
             }
 
 
-            public static int Aux()
-            {
-
-                return 1;
-            }
+            
             //CallInfo ci = new CallInfo(
             //    typeof(Foo).GetMethod("DoIt")),  //list of public methods
             //    real, 
@@ -96,5 +123,51 @@ namespace ProjectAVE.Entities
             //    public int DoIt(string s) { return s.(); }
             //}
 		  
+        }
+
+        public class Minha
+        {
+            private IInvocationHandler este;
+            private Object esta;
+
+            public Minha(Object real, IInvocationHandler arg1)
+            {
+                esta = real;
+                este = arg1;
+            }
+
+            public virtual void Ola(String a)
+            {
+                int fgsd;
+
+                int b;
+
+                b = 56;
+                fgsd = 2 * b;
+                CallInfo ci = new CallInfo(esta.GetType().GetMethod("Ola", new Type[] { typeof(String) }),  //list of public methods
+                this, 
+                new object[]{a});
+               este.OnCall(ci);
+               b = 56;
+            }
+
+            public virtual void Ola(int a)
+            {
+                
+                CallInfo ci = new CallInfo(typeof(Minha).GetMethod("Ola", new Type[] {typeof(int)}),  //list of public methods
+                this,
+                new object[] { a });
+                este.OnCall(ci);
+            }
+
+            public virtual void Ola(int a, double v)
+            {
+
+                CallInfo ci = new CallInfo(typeof(Minha).GetMethod("Ola", new Type[] { typeof(int), typeof(double) }),  //list of public methods
+                this,
+                new object[] { a });
+                este.OnCall(ci);
+            }
+
         }
 }
