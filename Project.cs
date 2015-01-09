@@ -17,14 +17,50 @@ namespace AVE1
 
     public static class DynamicProxyFactory
     {
+        private static AssemblyName aName;
 
+        private static AssemblyBuilder ab;
+        private static ModuleBuilder mb;
         public static T1 MakeProxy<T1>(T1 real, IInvocationHandler interceptor)
         {
-            TypeBuilder tb = new TypeBuilder();
+            if (aName == null)
+            {
+                aName = new AssemblyName("DynamicAssemblyExample");
+                ab =
+                    AppDomain.CurrentDomain.DefineDynamicAssembly(
+                        aName,
+                        AssemblyBuilderAccess.RunAndSave);
+
+                // For a single-module assembly, the module name is usually 
+                // the assembly name plus an extension.
+                mb =
+                    ab.DefineDynamicModule(aName.Name, aName.Name + ".dll");
+            }
+
+            TypeBuilder tb = mb.DefineType(
+                real.GetType().Name + "proxy",
+                 TypeAttributes.Public);
+
             MethodInfo[] ms = real.GetType().GetMethods(BindingFlags.Public | BindingFlags.Instance);
             foreach (MethodInfo m in ms)
             {
+                Type[] paramds = new Type[m.GetParameters().Length];
+                foreach(ParameterInfo pi in m.GetParameters()){
 
+                }
+                        MethodBuilder mbNumberGetAccessor = tb.DefineMethod(
+                                                           m.Name,
+                                                           m.Attributes,
+                                                           ,
+                                                           Type.EmptyTypes);
+
+                        ILGenerator numberGetIL = mbNumberGetAccessor.GetILGenerator();
+                        // For an instance property, argument zero is the instance. Load the  
+                        // instance, then load the private field and return, leaving the 
+                        // field value on the stack.
+                        numberGetIL.Emit(OpCodes.Ldarg_0);
+                        numberGetIL.Emit(OpCodes.Ldfld, fbNumber);
+                        numberGetIL.Emit(OpCodes.Ret);
             }
             return real;
         }
@@ -53,7 +89,8 @@ namespace AVE1
         {
             get { return _parameters; }
         }
-    }    /* aux */
+    }
+    /* aux */
 
     class LoggerInterceptor : IInvocationHandler
     {
@@ -86,7 +123,8 @@ namespace AVE1
             );
             return v.Length;
         }
-    }
+    }
+
     class Program
     {
         static void Main(string[] args)
