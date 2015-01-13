@@ -51,7 +51,12 @@ namespace ProjectAVE.Entities
       type,
       FieldAttributes.Private);
 
-            Type[] parameterTypes = { type, typeof(IInvocationHandler) };
+            FieldBuilder fbMethods = tb.DefineField(
+        "Methods",
+        typeof(MethodInfo[]),
+        FieldAttributes.Private);
+
+            Type[] parameterTypes = { type, typeof(IInvocationHandler), typeof(MethodInfo[] )};
 
             ConstructorBuilder ctor1 = tb.DefineConstructor(
         MethodAttributes.Public,
@@ -73,12 +78,17 @@ namespace ProjectAVE.Entities
             ctor1IL.Emit(OpCodes.Ldarg_0);
             ctor1IL.Emit(OpCodes.Ldarg_2);
             ctor1IL.Emit(OpCodes.Stfld, fbInterceptor);
+            ctor1IL.Emit(OpCodes.Ldarg_0);
+            ctor1IL.Emit(OpCodes.Ldarg_3);
+            ctor1IL.Emit(OpCodes.Stfld, fbMethods);
             ctor1IL.Emit(OpCodes.Ret);
 
-            MethodInfo getType = typeof(Type).GetMethod("GetType");
-            MethodInfo getMethod = typeof(Type).GetMethod("GetMethod", new Type[] { typeof(String) });
+            
 
+            //MethodInfo getType = typeof(Type).GetMethod("GetType");
+           // MethodInfo getMethod = typeof(Type).GetMethod("GetMethod", new Type[] { typeof(String) });
 
+            int idx = 0;
             MethodInfo[] ms = type.GetMethods(BindingFlags.Public | BindingFlags.Instance);
             foreach (MethodInfo m in ms)
             {
@@ -113,11 +123,11 @@ namespace ProjectAVE.Entities
 
                 //vai buscar o metedo a chamar
                 numberGetIL.Emit(OpCodes.Ldarg_0);
-                numberGetIL.Emit(OpCodes.Ldfld, fbReal);
-                numberGetIL.Emit(OpCodes.Call, getType);
-                numberGetIL.Emit(OpCodes.Ldstr, m.Name);
-                numberGetIL.Emit(OpCodes.Callvirt, getMethod);
-                numberGetIL.Emit(OpCodes.Stloc_2);
+                numberGetIL.Emit(OpCodes.Ldfld, fbMethods);
+                numberGetIL.Emit(OpCodes.Ldc_I4, idx++);
+                numberGetIL.Emit(OpCodes.Ldelem, typeof(MethodInfo));
+                numberGetIL.Emit(OpCodes.Stloc_1);
+             
                 //constroi e preenche o array de argumentos
                 numberGetIL.Emit(OpCodes.Ldarg_0);
                 numberGetIL.Emit(OpCodes.Ldc_I4, paramds.Length);
@@ -126,6 +136,7 @@ namespace ProjectAVE.Entities
                 numberGetIL.Emit(OpCodes.Ldloc_3);
                 for (i = 0; i < paramds.Length; i++)
                 {
+                    numberGetIL.Emit(OpCodes.Ldloc_3);
                     numberGetIL.Emit(OpCodes.Ldc_I4, i);
                     numberGetIL.Emit(OpCodes.Ldarga, i);
                     if (paramds[i].IsValueType)
@@ -136,11 +147,11 @@ namespace ProjectAVE.Entities
                 //numberGetIL.Emit(OpCodes.);
                 numberGetIL.Emit(OpCodes.Ret);
             }
-            Minha a = new Minha(real, interceptor);
+            Minha a = new Minha(real, interceptor, ms);
             // a.Ola("adeus");
 
             Type t = tb.CreateType();
-            return (T1)Activator.CreateInstance(t, new object[] { real, interceptor });
+            return (T1)Activator.CreateInstance(t, new object[] { real, interceptor, ms });
         }
 
         public static T1 MakeProxy<T1>(IInvocationHandler interceptor)
@@ -241,11 +252,13 @@ namespace ProjectAVE.Entities
     {
         private IInvocationHandler este;
         private Object esta;
+        private MethodInfo[] ms;
 
-        public Minha(Object real, IInvocationHandler arg1)
+        public Minha(Object real, IInvocationHandler arg1, MethodInfo[] ms)
         {
             esta = real;
             este = arg1;
+            this.ms = ms;
         }
 
         public virtual void Ola(String a, int b, int c)
@@ -256,7 +269,7 @@ namespace ProjectAVE.Entities
         public virtual void Ola(int a)
         {
 
-            CallInfo ci = new CallInfo(typeof(Minha).GetMethod("Ola", new Type[] { typeof(int) }),  //list of public methods
+            CallInfo ci = new CallInfo(ms[1],  //list of public methods
             this,
             new object[] { a });
             este.OnCall(ci);
