@@ -87,10 +87,14 @@ namespace ProjectAVE.Entities
 
             //MethodInfo getType = typeof(Type).GetMethod("GetType");
            // MethodInfo getMethod = typeof(Type).GetMethod("GetMethod", new Type[] { typeof(String) });
-
+            ConstructorInfo ci = typeof(CallInfo).GetConstructor(new Type[]{typeof(MethodInfo), typeof(Object), typeof(Object[])});
+            MethodInfo onCall = interceptor.GetType().GetMethod("OnCall");
             int idx = 0;
             MethodInfo[] ms = type.GetMethods(BindingFlags.Public | BindingFlags.Instance);
-            foreach (MethodInfo m in ms)
+            IEnumerable<MethodInfo> em = ms.AsQueryable().Where(m => m.IsVirtual);
+            MethodInfo[] toConst = em.ToArray<MethodInfo>();
+
+            foreach (MethodInfo m in toConst)
             {
                 Type[] paramds = new Type[m.GetParameters().Length];
                 int i = 0;
@@ -133,7 +137,6 @@ namespace ProjectAVE.Entities
                 numberGetIL.Emit(OpCodes.Ldc_I4, paramds.Length);
                 numberGetIL.Emit(OpCodes.Newarr, typeof(Object));
                 numberGetIL.Emit(OpCodes.Stloc_3);
-                numberGetIL.Emit(OpCodes.Ldloc_3);
                 for (i = 0; i < paramds.Length; i++)
                 {
                     numberGetIL.Emit(OpCodes.Ldloc_3);
@@ -143,15 +146,26 @@ namespace ProjectAVE.Entities
                         numberGetIL.Emit(OpCodes.Box);
                     numberGetIL.Emit(OpCodes.Stelem_Ref);
                 }
-               
+              
+                 numberGetIL.Emit(OpCodes.Ldloc_1);
+                 numberGetIL.Emit(OpCodes.Ldfld, fbReal);
+                 numberGetIL.Emit(OpCodes.Ldloc_3);
+                 numberGetIL.Emit(OpCodes.Newobj, ci);
+                 numberGetIL.Emit(OpCodes.Stloc, 4);
+                 numberGetIL.Emit(OpCodes.Ldfld, fbInterceptor);
+                 numberGetIL.Emit(OpCodes.Ldloc, 4);
+                 numberGetIL.Emit(OpCodes.Callvirt, onCall);
+
                 //numberGetIL.Emit(OpCodes.);
                 numberGetIL.Emit(OpCodes.Ret);
+
+                tb.DefineMethodOverride(mbNumberGetAccessor, m);
             }
             Minha a = new Minha(real, interceptor, ms);
             // a.Ola("adeus");
 
             Type t = tb.CreateType();
-            return (T1)Activator.CreateInstance(t, new object[] { real, interceptor, ms });
+            return (T1)Activator.CreateInstance(t, new object[] { real, interceptor, toConst });
         }
 
         public static T1 MakeProxy<T1>(IInvocationHandler interceptor)
