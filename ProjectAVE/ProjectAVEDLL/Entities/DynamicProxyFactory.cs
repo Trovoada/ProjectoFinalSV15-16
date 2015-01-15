@@ -43,7 +43,8 @@ namespace ProjectAVE.Entities
 
             FieldBuilder fbInterceptor = tb.DefineField(
         "interceptor",
-        typeof(IInvocationHandler),
+        //typeof(IInvocationHandler),
+        interceptor.GetType(),
         FieldAttributes.Private);
 
             FieldBuilder fbReal = tb.DefineField(
@@ -126,6 +127,7 @@ namespace ProjectAVE.Entities
                 numberGetIL.DeclareLocal(typeof(MethodInfo));
                 numberGetIL.DeclareLocal(typeof(Object[]));
                 numberGetIL.DeclareLocal(typeof(CallInfo));
+              //  numberGetIL.DeclareLocal(m.ReturnType);
 
                 //vai buscar o metedo a chamar
                 numberGetIL.Emit(OpCodes.Ldarg_0);
@@ -146,7 +148,7 @@ namespace ProjectAVE.Entities
                     numberGetIL.Emit(OpCodes.Ldc_I4, i);
                     numberGetIL.Emit(OpCodes.Ldarga, i+1);
                     if (paramds[i].IsValueType)
-                        numberGetIL.Emit(OpCodes.Box);
+                        numberGetIL.Emit(OpCodes.Box, typeof(Object));
                     numberGetIL.Emit(OpCodes.Stelem_Ref);
                 }
               
@@ -156,15 +158,23 @@ namespace ProjectAVE.Entities
                  numberGetIL.Emit(OpCodes.Ldloc_1);
                  numberGetIL.Emit(OpCodes.Newobj, ci);
                  numberGetIL.Emit(OpCodes.Stloc, 2);
+
                  numberGetIL.Emit(OpCodes.Ldarg_0);
                  numberGetIL.Emit(OpCodes.Ldfld, fbInterceptor);
+                 
                  numberGetIL.Emit(OpCodes.Ldloc, 2);
                  numberGetIL.Emit(OpCodes.Callvirt, onCall);
+                if(m.ReturnType == typeof(void)) 
+                    numberGetIL.Emit(OpCodes.Pop);
+                // numberGetIL.Emit(OpCodes.Stloc, 3);
+                // numberGetIL.Emit(OpCodes.Ldloc, 3);
+               // numberGetIL.Emit(OpCodes.Pop);
+                //numberGetIL.Emit(OpCodes.);*/
+                
 
-                //numberGetIL.Emit(OpCodes.);
                 numberGetIL.Emit(OpCodes.Ret);
 
-                tb.DefineMethodOverride(mbNumberGetAccessor, m);
+               // tb.DefineMethodOverride(mbNumberGetAccessor, m);
             }
             Minha a = new Minha(real, interceptor, ms);
             // a.Ola("adeus");
@@ -285,14 +295,15 @@ namespace ProjectAVE.Entities
             esta.GetType().GetMethod("Ola");
         }
 
-        public virtual void Ola(int a)
+        public virtual object Ola(int a)
         {
             MethodInfo m = ms[1];
             Object[] arr = new object[] { a };
             CallInfo ci = new CallInfo(m,  //list of public methods
             esta,
             arr);
-            este.OnCall(ci);
+            return este.OnCall(ci);
+            
         }
 
         public virtual void Ola(int a, double v)
