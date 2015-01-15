@@ -106,7 +106,7 @@ namespace ProjectAVE.Entities
                                                     m.Name,
                                                     m.Attributes,
                                                     m.ReturnType,
-                                                    paramds);
+                                                   paramds);
 
                 ILGenerator numberGetIL = mbNumberGetAccessor.GetILGenerator();
                 // For an instance property, argument zero is the instance. Load the  
@@ -123,37 +123,42 @@ namespace ProjectAVE.Entities
                       numberGetIL.Emit(OpCodes.Ldc_I4, i);
                       numberGetIL.Emit(OpCodes.Ld);
                   }*/
-
+                numberGetIL.DeclareLocal(typeof(MethodInfo));
+                numberGetIL.DeclareLocal(typeof(Object[]));
+                numberGetIL.DeclareLocal(typeof(CallInfo));
 
                 //vai buscar o metedo a chamar
                 numberGetIL.Emit(OpCodes.Ldarg_0);
                 numberGetIL.Emit(OpCodes.Ldfld, fbMethods);
                 numberGetIL.Emit(OpCodes.Ldc_I4, idx++);
                 numberGetIL.Emit(OpCodes.Ldelem, typeof(MethodInfo));
-                numberGetIL.Emit(OpCodes.Stloc_1);
+                numberGetIL.Emit(OpCodes.Stloc_0);
              
                 //constroi e preenche o array de argumentos
-                numberGetIL.Emit(OpCodes.Ldarg_0);
+                //numberGetIL.Emit(OpCodes.Ldarg_0);
                 numberGetIL.Emit(OpCodes.Ldc_I4, paramds.Length);
                 numberGetIL.Emit(OpCodes.Newarr, typeof(Object));
-                numberGetIL.Emit(OpCodes.Stloc_3);
+                numberGetIL.Emit(OpCodes.Stloc_1);
+                
                 for (i = 0; i < paramds.Length; i++)
                 {
-                    numberGetIL.Emit(OpCodes.Ldloc_3);
+                    numberGetIL.Emit(OpCodes.Ldloc_1);
                     numberGetIL.Emit(OpCodes.Ldc_I4, i);
-                    numberGetIL.Emit(OpCodes.Ldarga, i);
+                    numberGetIL.Emit(OpCodes.Ldarga, i+1);
                     if (paramds[i].IsValueType)
                         numberGetIL.Emit(OpCodes.Box);
                     numberGetIL.Emit(OpCodes.Stelem_Ref);
                 }
               
-                 numberGetIL.Emit(OpCodes.Ldloc_1);
+                 numberGetIL.Emit(OpCodes.Ldloc_0);
+                 numberGetIL.Emit(OpCodes.Ldarg_0);
                  numberGetIL.Emit(OpCodes.Ldfld, fbReal);
-                 numberGetIL.Emit(OpCodes.Ldloc_3);
+                 numberGetIL.Emit(OpCodes.Ldloc_1);
                  numberGetIL.Emit(OpCodes.Newobj, ci);
-                 numberGetIL.Emit(OpCodes.Stloc, 4);
+                 numberGetIL.Emit(OpCodes.Stloc, 2);
+                 numberGetIL.Emit(OpCodes.Ldarg_0);
                  numberGetIL.Emit(OpCodes.Ldfld, fbInterceptor);
-                 numberGetIL.Emit(OpCodes.Ldloc, 4);
+                 numberGetIL.Emit(OpCodes.Ldloc, 2);
                  numberGetIL.Emit(OpCodes.Callvirt, onCall);
 
                 //numberGetIL.Emit(OpCodes.);
@@ -282,10 +287,11 @@ namespace ProjectAVE.Entities
 
         public virtual void Ola(int a)
         {
-
-            CallInfo ci = new CallInfo(ms[1],  //list of public methods
-            this,
-            new object[] { a });
+            MethodInfo m = ms[1];
+            Object[] arr = new object[] { a };
+            CallInfo ci = new CallInfo(m,  //list of public methods
+            esta,
+            arr);
             este.OnCall(ci);
         }
 

@@ -12,7 +12,7 @@ namespace ProjectTest
     /****************TEST***************/
     public class Foo
     {
-        public virtual void DoIt(String v)
+        public virtual void DoIt(String v, int d)
         {
             Console.WriteLine(
             "AClass.DoIt() with {0}",
@@ -32,7 +32,7 @@ namespace ProjectTest
                             real,
                             logInterceptor
              );
-            proxy.DoIt("12");
+            proxy.DoIt("12", 12);
             foreach (MethodInfo mi in proxy.GetType().GetMethods())
             {
                 Console.WriteLine(mi.Name);
