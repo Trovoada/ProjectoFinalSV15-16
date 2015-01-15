@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ProjectAVEDLL;
 using ProjectAVE.Entities;
 using System.Reflection;
+using ProjectAVEDLL.Entities;
 namespace ProjectTest
 {
 
@@ -34,9 +35,12 @@ namespace ProjectTest
                             logInterceptor
              );
             proxy.DoIt("12");
+            IInvocationHandler mock =  new MockInterceptor();
+            Foo mockProxy = DynamicProxyFactory.MakeProxy<Foo>(mock);
+            mockProxy.DoIt("adeus");
             foreach (MethodInfo mi in proxy.GetType().GetMethods())
             {
-                Console.WriteLine(mi.Name);
+                Console.WriteLine(mi.Name + " " + mi.ReturnParameter.Name + " " + mi.IsVirtual);
             }
         }
     }

@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\MockInterceptor.cs" />
     <Compile Include="Entities\Proxy.cs" />
     <Compile Include="Entities\RealSubject.cs" />
     <Compile Include="Interfaces\Subject.cs" />

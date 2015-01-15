@@ -35,7 +35,7 @@ namespace ProjectAVE.Entities
             }
             Type type = real.GetType();
             TypeBuilder tb = mb.DefineType(
-                                            type.Name + "proxy",
+                                            type.Name + "proxy" +real.GetHashCode(),
                                             TypeAttributes.Public
                                            );
             tb.SetParent(type);
@@ -105,7 +105,8 @@ namespace ProjectAVE.Entities
                 }
                 MethodBuilder mbNumberGetAccessor = tb.DefineMethod(
                                                     m.Name,
-                                                    m.Attributes,
+                                                    m.Attributes | MethodAttributes.Public | MethodAttributes.ReuseSlot |
+                MethodAttributes.Virtual | MethodAttributes.HideBySig,
                                                     m.ReturnType,
                                                    paramds);
 
@@ -174,7 +175,7 @@ namespace ProjectAVE.Entities
 
                 numberGetIL.Emit(OpCodes.Ret);
 
-               // tb.DefineMethodOverride(mbNumberGetAccessor, m);
+                //tb.DefineMethodOverride(mbNumberGetAccessor, m);
             }
             Minha a = new Minha(real, interceptor, ms);
             // a.Ola("adeus");
@@ -185,7 +186,7 @@ namespace ProjectAVE.Entities
 
         public static T1 MakeProxy<T1>(IInvocationHandler interceptor)
         {
-            if (aName == null)
+             if (aName == null)
             {
                 aName = new AssemblyName("DynamicAssemblyExample");
                 ab =
@@ -197,9 +198,10 @@ namespace ProjectAVE.Entities
                 // the assembly name plus an extension.
                 mb = ab.DefineDynamicModule(aName.Name, aName.Name + ".dll");
             }
+            
             Type type = typeof(T1);
             TypeBuilder tb = mb.DefineType(
-                                            type.Name + "proxy",
+                                            type.Name + "proxy" + interceptor.GetType().Name ,
                                             TypeAttributes.Public
                                            );
             tb.SetParent(type);
@@ -207,12 +209,11 @@ namespace ProjectAVE.Entities
 
             FieldBuilder fbInterceptor = tb.DefineField(
         "interceptor",
-        typeof(IInvocationHandler),
+        //typeof(IInvocationHandler),
+        interceptor.GetType(),
         FieldAttributes.Private);
 
-           
-
-            Type[] parameterTypes = { type, typeof(IInvocationHandler) };
+            Type[] parameterTypes = { typeof(IInvocationHandler)};
 
             ConstructorBuilder ctor1 = tb.DefineConstructor(
         MethodAttributes.Public,
@@ -229,15 +230,22 @@ namespace ProjectAVE.Entities
             ctor1IL.Emit(OpCodes.Ldarg_0);
             ctor1IL.Emit(OpCodes.Call, typeof(object).GetConstructor(Type.EmptyTypes));
             ctor1IL.Emit(OpCodes.Ldarg_0);
-            ctor1IL.Emit(OpCodes.Ldarg_2);
+            ctor1IL.Emit(OpCodes.Ldarg_1);
             ctor1IL.Emit(OpCodes.Stfld, fbInterceptor);
             ctor1IL.Emit(OpCodes.Ret);
 
+            
 
-           
-
+            //MethodInfo getType = typeof(Type).GetMethod("GetType");
+           // MethodInfo getMethod = typeof(Type).GetMethod("GetMethod", new Type[] { typeof(String) });
+            ConstructorInfo ci = typeof(CallInfo).GetConstructor(new Type[]{typeof(MethodInfo), typeof(Object), typeof(Object[])});
+            MethodInfo onCall = interceptor.GetType().GetMethod("OnCall");
+            
             MethodInfo[] ms = type.GetMethods(BindingFlags.Public | BindingFlags.Instance);
-            foreach (MethodInfo m in ms)
+            IEnumerable<MethodInfo> em = ms.AsQueryable().Where(m => m.IsVirtual);
+            MethodInfo[] toConst = em.ToArray<MethodInfo>();
+
+            foreach (MethodInfo m in toConst)
             {
                 Type[] paramds = new Type[m.GetParameters().Length];
                 int i = 0;
@@ -247,17 +255,61 @@ namespace ProjectAVE.Entities
                 }
                 MethodBuilder mbNumberGetAccessor = tb.DefineMethod(
                                                     m.Name,
-                                                    m.Attributes,
+                                                    m.Attributes | MethodAttributes.Public | MethodAttributes.ReuseSlot |
+                MethodAttributes.Virtual | MethodAttributes.HideBySig ,
                                                     m.ReturnType,
-                                                    paramds);
+                                                   paramds);
 
                 ILGenerator numberGetIL = mbNumberGetAccessor.GetILGenerator();
+                // For an instance property, argument zero is the instance. Load the  
+                // instance, then load the private field and return, leaving the 
+                // field value on the stack.
+                //constroi o array de typos dos argumentos para achar o metedo correcto
+                /*  numberGetIL.Emit(OpCodes.Ldarg_0);
+                  numberGetIL.Emit(OpCodes.Ldc_I4, paramds.Length);
+                  numberGetIL.Emit(OpCodes.Newarr, typeof(Type));
+                  numberGetIL.Emit(OpCodes.Stloc_1);
+                  numberGetIL.Emit(OpCodes.Ldloc_1);
+                  for (i = 0; i < paramds.Length; i++)
+                  {
+                      numberGetIL.Emit(OpCodes.Ldc_I4, i);
+                      numberGetIL.Emit(OpCodes.Ld);
+                  }*/
                 
+                numberGetIL.DeclareLocal(typeof(CallInfo));
+              //  numberGetIL.DeclareLocal(m.ReturnType);
+
+                //vai buscar o metedo a chamar
               
+                 numberGetIL.Emit(OpCodes.Ldnull);
+                 numberGetIL.Emit(OpCodes.Ldnull);
+                 numberGetIL.Emit(OpCodes.Ldnull);
+                 numberGetIL.Emit(OpCodes.Newobj, ci);
+                 numberGetIL.Emit(OpCodes.Stloc, 0);
+
+                 numberGetIL.Emit(OpCodes.Ldarg_0);
+                 numberGetIL.Emit(OpCodes.Ldfld, fbInterceptor);
+                 
+                 numberGetIL.Emit(OpCodes.Ldloc, 0);
+                 numberGetIL.Emit(OpCodes.Callvirt, onCall);
+                if(m.ReturnType == typeof(void)) 
+                    numberGetIL.Emit(OpCodes.Pop);
+                // numberGetIL.Emit(OpCodes.Stloc, 3);
+                // numberGetIL.Emit(OpCodes.Ldloc, 3);
+               // numberGetIL.Emit(OpCodes.Pop);
+                //numberGetIL.Emit(OpCodes.);*/
+                
+
                 numberGetIL.Emit(OpCodes.Ret);
+
+                tb.DefineMethodOverride(mbNumberGetAccessor, m);
             }
+            //Minha a = new Minha( interceptor, ms);
+            // a.Ola("adeus");
+
             Type t = tb.CreateType();
-            return (T1)Activator.CreateInstance(t, new object[] { interceptor });
+            return (T1)Activator.CreateInstance(t, new object[] { interceptor});
+        
         }
 
 

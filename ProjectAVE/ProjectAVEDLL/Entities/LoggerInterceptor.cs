@@ -23,7 +23,7 @@ namespace ProjectAVE.Entities
             object res = info.TargetMethod.Invoke(
             info.Target,
             info.Parameters);
-
+            Console.WriteLine("Executed");
             Console.WriteLine("Executed in {0} ticks",
             watch.ElapsedTicks - start);
 
