@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ProjectAVEDLL;
 using ProjectAVE.Entities;
 using System.Reflection;
+using ProjectAVEDLL.Entities;
 namespace ProjectTest
 {
 
@@ -18,7 +19,8 @@ namespace ProjectTest
             "AClass.DoIt() with {0}",
             v
             );
-            //return v.Length;
+            //return "ola" ;
+           // return 1;
         }
     }
 
@@ -32,10 +34,13 @@ namespace ProjectTest
                             real,
                             logInterceptor
              );
-            proxy.DoIt("12");
+           proxy.DoIt("12");
+            IInvocationHandler mock =  new MockInterceptor();
+            Foo mockProxy = DynamicProxyFactory.MakeProxy<Foo>(mock);
+            mockProxy.DoIt("adeus");
             foreach (MethodInfo mi in proxy.GetType().GetMethods())
             {
-                Console.WriteLine(mi.Name);
+                Console.WriteLine(mi.Name + " " + mi.ReturnParameter.Name + " " + mi.IsVirtual);
             }
         }
     }
