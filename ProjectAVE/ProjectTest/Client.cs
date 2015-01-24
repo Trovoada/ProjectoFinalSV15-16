@@ -13,13 +13,13 @@ namespace ProjectTest
     /****************TEST***************/
     public class Foo
     {
-        public virtual String DoIt(String v)
+        public virtual void DoIt(String v)
         {
             Console.WriteLine(
             "AClass.DoIt() with {0}",
             v
             );
-            return "ola" ;
+            //return "ola" ;
            // return 1;
         }
     }
@@ -34,7 +34,7 @@ namespace ProjectTest
                             real,
                             logInterceptor
              );
-            proxy.DoIt("12");
+           proxy.DoIt("12");
             IInvocationHandler mock =  new MockInterceptor();
             Foo mockProxy = DynamicProxyFactory.MakeProxy<Foo>(mock);
             mockProxy.DoIt("adeus");

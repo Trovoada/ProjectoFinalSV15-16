@@ -105,8 +105,7 @@ namespace ProjectAVE.Entities
                 }
                 MethodBuilder mbNumberGetAccessor = tb.DefineMethod(
                                                     m.Name,
-                                                    m.Attributes | MethodAttributes.Public | MethodAttributes.ReuseSlot |
-                MethodAttributes.Virtual | MethodAttributes.HideBySig,
+                                                    MethodAttributes.Public | MethodAttributes.Virtual,
                                                     m.ReturnType,
                                                    paramds);
 
@@ -166,7 +165,7 @@ namespace ProjectAVE.Entities
                  numberGetIL.Emit(OpCodes.Ldloc, 2);
                  numberGetIL.Emit(OpCodes.Callvirt, onCall);
                 if(m.ReturnType == typeof(void)) 
-                    numberGetIL.Emit(OpCodes.Pop);
+                   numberGetIL.Emit(OpCodes.Pop);
                 // numberGetIL.Emit(OpCodes.Stloc, 3);
                 // numberGetIL.Emit(OpCodes.Ldloc, 3);
                // numberGetIL.Emit(OpCodes.Pop);
@@ -255,8 +254,7 @@ namespace ProjectAVE.Entities
                 }
                 MethodBuilder mbNumberGetAccessor = tb.DefineMethod(
                                                     m.Name,
-                                                    m.Attributes | MethodAttributes.Public | MethodAttributes.ReuseSlot |
-                MethodAttributes.Virtual | MethodAttributes.HideBySig ,
+                                                   MethodAttributes.Public | MethodAttributes.Virtual ,
                                                     m.ReturnType,
                                                    paramds);
 
@@ -302,7 +300,7 @@ namespace ProjectAVE.Entities
 
                 numberGetIL.Emit(OpCodes.Ret);
 
-                tb.DefineMethodOverride(mbNumberGetAccessor, m);
+                //tb.DefineMethodOverride(mbNumberGetAccessor, m);
             }
             //Minha a = new Minha( interceptor, ms);
             // a.Ola("adeus");
@@ -347,7 +345,7 @@ namespace ProjectAVE.Entities
             esta.GetType().GetMethod("Ola");
         }
 
-        public virtual object Ola(int a)
+        public virtual object Ola(String a)
         {
             MethodInfo m = ms[1];
             Object[] arr = new object[] { a };
