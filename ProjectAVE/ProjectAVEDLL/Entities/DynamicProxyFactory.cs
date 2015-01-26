@@ -88,7 +88,7 @@ namespace ProjectAVE.Entities
 
             //MethodInfo getType = typeof(Type).GetMethod("GetType");
            // MethodInfo getMethod = typeof(Type).GetMethod("GetMethod", new Type[] { typeof(String) });
-            ConstructorInfo ci = typeof(CallInfo).GetConstructor(new Type[]{typeof(MethodInfo), typeof(Object), typeof(Object[])});
+            ConstructorInfo ci = typeof(CallInfo).GetConstructor(new Type[]{typeof(MethodInfo), typeof(object), typeof(object[])});
             MethodInfo onCall = interceptor.GetType().GetMethod("OnCall");
             int idx = 0;
             MethodInfo[] ms = type.GetMethods(BindingFlags.Public | BindingFlags.Instance);
@@ -125,7 +125,7 @@ namespace ProjectAVE.Entities
                       numberGetIL.Emit(OpCodes.Ld);
                   }*/
                 numberGetIL.DeclareLocal(typeof(MethodInfo));
-                numberGetIL.DeclareLocal(typeof(Object[]));
+                numberGetIL.DeclareLocal(typeof(object[]));
                 numberGetIL.DeclareLocal(typeof(CallInfo));
               //  numberGetIL.DeclareLocal(m.ReturnType);
 
@@ -139,7 +139,7 @@ namespace ProjectAVE.Entities
                 //constroi e preenche o array de argumentos
                 //numberGetIL.Emit(OpCodes.Ldarg_0);
                 numberGetIL.Emit(OpCodes.Ldc_I4, paramds.Length);
-                numberGetIL.Emit(OpCodes.Newarr, typeof(Object));
+                numberGetIL.Emit(OpCodes.Newarr, typeof(object));
                 numberGetIL.Emit(OpCodes.Stloc_1);
                 
                 for (i = 0; i < paramds.Length; i++)
@@ -148,7 +148,7 @@ namespace ProjectAVE.Entities
                     numberGetIL.Emit(OpCodes.Ldc_I4, i);
                     numberGetIL.Emit(OpCodes.Ldarga, i+1);
                     if (paramds[i].IsValueType)
-                        numberGetIL.Emit(OpCodes.Box, typeof(Object));
+                        numberGetIL.Emit(OpCodes.Box, typeof(object));
                     numberGetIL.Emit(OpCodes.Stelem_Ref);
                 }
               
@@ -237,7 +237,7 @@ namespace ProjectAVE.Entities
 
             //MethodInfo getType = typeof(Type).GetMethod("GetType");
            // MethodInfo getMethod = typeof(Type).GetMethod("GetMethod", new Type[] { typeof(String) });
-            ConstructorInfo ci = typeof(CallInfo).GetConstructor(new Type[]{typeof(MethodInfo), typeof(Object), typeof(Object[])});
+            ConstructorInfo ci = typeof(CallInfo).GetConstructor(new Type[]{typeof(MethodInfo), typeof(object), typeof(object[])});
             MethodInfo onCall = interceptor.GetType().GetMethod("OnCall");
             
             MethodInfo[] ms = type.GetMethods(BindingFlags.Public | BindingFlags.Instance);
@@ -330,10 +330,10 @@ namespace ProjectAVE.Entities
     public class Minha
     {
         private IInvocationHandler este;
-        private Object esta;
+        private object esta;
         private MethodInfo[] ms;
 
-        public Minha(Object real, IInvocationHandler arg1, MethodInfo[] ms)
+        public Minha(object real, IInvocationHandler arg1, MethodInfo[] ms)
         {
             esta = real;
             este = arg1;
@@ -348,7 +348,7 @@ namespace ProjectAVE.Entities
         public virtual object Ola(String a)
         {
             MethodInfo m = ms[1];
-            Object[] arr = new object[] { a };
+            object[] arr = new object[] { a };
             CallInfo ci = new CallInfo(m,  //list of public methods
             esta,
             arr);
