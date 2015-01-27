@@ -139,7 +139,7 @@ namespace ProjectAVE.Entities
                 //constroi e preenche o array de argumentos
                 //numberGetIL.Emit(OpCodes.Ldarg_0);
                 numberGetIL.Emit(OpCodes.Ldc_I4, paramds.Length);
-                numberGetIL.Emit(OpCodes.Newarr, typeof(object));
+                numberGetIL.Emit(OpCodes.Newarr, typeof(object)); //aqui
                 numberGetIL.Emit(OpCodes.Stloc_1);
                 
                 for (i = 0; i < paramds.Length; i++)
@@ -168,7 +168,7 @@ namespace ProjectAVE.Entities
                    numberGetIL.Emit(OpCodes.Pop);
                 // numberGetIL.Emit(OpCodes.Stloc, 3);
                 // numberGetIL.Emit(OpCodes.Ldloc, 3);
-               // numberGetIL.Emit(OpCodes.Pop);
+                numberGetIL.Emit(OpCodes.Pop);
                 //numberGetIL.Emit(OpCodes.);*/
                 
 
