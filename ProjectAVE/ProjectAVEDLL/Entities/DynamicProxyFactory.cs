@@ -278,7 +278,8 @@ namespace ProjectAVE.Entities
 
     class ProxyContent
     {
-
+        public EventHandler<EventArgs> Ev;
+        public  Action DoBefore;
     }
 
     public class SelectMethodProxy
@@ -292,6 +293,32 @@ namespace ProjectAVE.Entities
             return new FluidProxyBuilder(Methods, f.Method);
         }
 
+    }
+    public class HandlerM : IInvocationHandler 
+    {
+        Dictionary<MethodInfo, ProxyContent> Methods;
+        public HandlerM(Dictionary<MethodInfo, ProxyContent> Methods)
+        {
+            this.Methods = Methods;
+        }
+        public object OnCall(CallInfo info)
+        {
+            MethodInfo methodinf = info.TargetMethod;
+            ProxyContent proxyCont = Methods[methodinf];
+            ParameterInfo [] pInfo = methodinf.GetParameters();
+            if (proxyCont != null)
+            {
+                //methodinf.MethodHandle
+                proxyCont.doBefore.invoke(pInfo);
+                if (proxyCont.ReplacepInfo
+                    proxyCont.Replace.invoke(pInfo);
+                else
+                    proxyCont.a.Invoke(pInfo);
+                proxyCont.DoAfter.invoke(pInfo);
+                proxyCont.Make();
+            }
+            return new object(); //mudar isto
+        }
     }
 
     public class FluidProxyBuilder : SelectMethodProxy

@@ -28,7 +28,8 @@ namespace ProjectTest
     {
         string Operation(
         IDictionary<int, string> param);
-    }
+    }
+
 
     class Client
     {
@@ -55,7 +56,9 @@ namespace ProjectTest
             string s = p.Operation(
              new Dictionary<int, string>());
 
-            Func<String, int> f = real.DoIt;
+            Func<String, int> f = real.DoIt;
+
+
         }
     }
 }
