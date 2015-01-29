@@ -18,17 +18,16 @@ namespace ProjectAVE.Entities
         {
 
             start = watch.ElapsedTicks;
-            object[] arr = info.Parameters.ToArray();
+
             // call real method using reflection
             object res = info.TargetMethod.Invoke(
-            info.Target, 
-            arr[0]); //mudar isto
-                      //new object[](info.Parameters);//info.Parameters);
-            Console.WriteLine("Executed");
+            info.Target,
+            info.Parameters);
+
             Console.WriteLine("Executed in {0} ticks",
             watch.ElapsedTicks - start);
 
             return res;
-        }
+        }
     }
 }
