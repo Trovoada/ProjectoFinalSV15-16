@@ -149,7 +149,7 @@ namespace ProjectAVE.Entities
 
 
                 if (m.ReturnType.IsValueType)
-                    numberGetIL.Emit(OpCodes.Unbox, m.ReturnType);
+                    numberGetIL.Emit(OpCodes.Unbox_Any, m.ReturnType);
                 numberGetIL.Emit(OpCodes.Ret);
             }
 
@@ -282,11 +282,10 @@ namespace ProjectAVE.Entities
 
    public  class ProxyContent
     {
-
-       public delegate void ola(object[] o);
-       public ola DoBefore;
+       public Delegate DoBefore;
        public Delegate Replace;
-       public ola DoAfter; 
+       public Delegate DoAfter;
+
     }
 
     public class SelectMethodProxy<T>
@@ -323,16 +322,16 @@ namespace ProjectAVE.Entities
             ParameterInfo [] pInfo = methodinf.GetParameters();
           
             object res;
-            //methodinf.MethodHandle
-            proxyCont.DoBefore.Invoke(info.Parameters);
+            if (proxyCont.DoBefore!=null)
+                proxyCont.DoBefore.DynamicInvoke(info.Parameters);
             if (proxyCont.Replace!=null)
-                res = proxyCont.Replace;
+                res = proxyCont.Replace.DynamicInvoke(info.Parameters);
             else
                 res = info.TargetMethod.Invoke(
                                     info.Target,
                                     info.Parameters);
-
-            proxyCont.DoAfter.Invoke(info.Parameters);
+            if(proxyCont.DoAfter!=null)
+             proxyCont.DoAfter.DynamicInvoke(info.Parameters);
             return res;
             
         }
@@ -351,17 +350,18 @@ namespace ProjectAVE.Entities
         }
 
         public FluidProxyBuilder<T> DoBefore<T1>(Action<T1> a){
-            Methods[Selected].DoBefore += args => a.Invoke((T1)args[0]);
+
+            Methods[Selected].DoBefore = Delegate.Combine(Methods[Selected].DoBefore, a);// += args => a.Invoke((T1)args[0]);
             return this;
         }
 
         public FluidProxyBuilder<T> DoAfter<T1>(Action<T1> a)
         {
-            Methods[Selected].DoAfter += args => a.Invoke((T1)args[0]);
+            Methods[Selected].DoAfter = Delegate.Combine(Methods[Selected].DoAfter, a);
             return this;
         }
 
-        public FluidProxyBuilder<T> Replace<T1>(Delegate d)
+        public FluidProxyBuilder<T> Replace< T1,  T2>(Func<T1, T2> d)
         {
             Methods[Selected].Replace = d;
             

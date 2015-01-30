@@ -56,6 +56,15 @@ namespace ProjectTest
             string s = p.Operation(
              new Dictionary<int, string>());
 
+            Foo test = DynamicProxyFactory.With<Foo>()
+                                            .On<String, int>(real.DoIt)
+                                            .DoBefore<String>(ss => Console.WriteLine(ss))
+                                            .DoAfter<String>(ss=>Console.WriteLine(ss.GetType().Name))
+                                           // .Replace<String,int>(ss=>ss.Length * 5)
+                                            .Make();
+
+
+            Console.WriteLine(test.DoIt("Adeus"));
 
         }
     }
