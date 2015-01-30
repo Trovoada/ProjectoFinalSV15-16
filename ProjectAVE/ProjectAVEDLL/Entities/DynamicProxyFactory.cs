@@ -282,11 +282,11 @@ namespace ProjectAVE.Entities
 
    public  class ProxyContent
     {
+
        public delegate void ola(object[] o);
- 
        public ola DoBefore;
        public Delegate Replace;
-       public ola DoAfter;
+       public ola DoAfter; 
     }
 
     public class SelectMethodProxy<T>
@@ -308,6 +308,34 @@ namespace ProjectAVE.Entities
             return new FluidProxyBuilder<T>(Methods, f.Method);
         }
 
+    }
+    public class HandlerM : IInvocationHandler 
+    {
+        Dictionary<MethodInfo, ProxyContent> Methods;
+        public HandlerM(Dictionary<MethodInfo, ProxyContent> Methods)
+        {
+            this.Methods = Methods;
+        }
+        public object OnCall(CallInfo info)
+        {
+            MethodInfo methodinf = info.TargetMethod;
+            ProxyContent proxyCont = Methods[methodinf];
+            ParameterInfo [] pInfo = methodinf.GetParameters();
+          
+            object res;
+            //methodinf.MethodHandle
+            proxyCont.DoBefore.Invoke(info.Parameters);
+            if (proxyCont.Replace!=null)
+                res = proxyCont.Replace;
+            else
+                res = info.TargetMethod.Invoke(
+                                    info.Target,
+                                    info.Parameters);
+
+            proxyCont.DoAfter.Invoke(info.Parameters);
+            return res;
+            
+        }
     }
 
     public class FluidProxyBuilder<T> : SelectMethodProxy<T>
@@ -342,7 +370,7 @@ namespace ProjectAVE.Entities
 
         public T Make()
         {
-            return DynamicProxyFactory.MakeProxy<T>((T)Activator.CreateInstance(t, new object[] { new myInterceptor(Methods) });
+            return DynamicProxyFactory.MakeProxy<T>((T)Activator.CreateInstance(typeof(T)),  new HandlerM(Methods));
         }
 
     }
