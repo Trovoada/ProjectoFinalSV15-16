@@ -307,6 +307,13 @@ namespace ProjectAVE.Entities
             return new FluidProxyBuilder<T>(Methods, f.Method);
         }
 
+        public FluidProxyBuilder<T> On<T1, T2>(Action<T1, T2> f)
+        {
+            if (!Methods.ContainsKey(f.Method)) throw new ArgumentException();
+
+            return new FluidProxyBuilder<T>(Methods, f.Method);
+        }
+
     }
     public class HandlerM : IInvocationHandler 
     {
@@ -365,6 +372,13 @@ namespace ProjectAVE.Entities
         {
             Methods[Selected].Replace = d;
             
+            return this;
+        }
+
+        public FluidProxyBuilder<T> Replace<T1, T2>(Action<T1, T2> d)
+        {
+            Methods[Selected].Replace = d;
+
             return this;
         }
 
