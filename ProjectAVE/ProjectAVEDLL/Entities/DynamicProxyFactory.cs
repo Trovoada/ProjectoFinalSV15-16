@@ -153,9 +153,8 @@ namespace ProjectAVE.Entities
                 numberGetIL.Emit(OpCodes.Ret);
             }
 
-
             Type t = tb.CreateType();
-
+            
 
             return (T1)Activator.CreateInstance(t, new object[] { real, interceptor, toConst });
         }
@@ -268,42 +267,82 @@ namespace ProjectAVE.Entities
             return (T1)Activator.CreateInstance(t, new object[] { interceptor });
 
         }
-        public static SelectMethodProxy With<T>()
+        public static SelectMethodProxy<T> With<T>()
         {
-            return null;
+            MethodInfo[] ms = typeof(T).GetMethods(BindingFlags.Public | BindingFlags.Instance);
+            IEnumerable<MethodInfo> em = ms.AsQueryable().Where(m => m.IsVirtual);
+            Dictionary<MethodInfo, ProxyContent> toRet = new Dictionary<MethodInfo, ProxyContent>();
+            foreach (MethodInfo m in em)
+                toRet.Add(m, new ProxyContent());
+            return new SelectMethodProxy<T>(toRet);
 
         }
 
     }
 
-    class ProxyContent
+   public  class ProxyContent
     {
-
+       public delegate void ola(object[] o);
+ 
+       public ola DoBefore;
+       public Delegate Replace;
+       public ola DoAfter;
     }
 
-    public class SelectMethodProxy
+    public class SelectMethodProxy<T>
     {
-        protected Dictionary<MethodInfo, ProxyContent> Methods;
 
-        public FluidProxyBuilder On<T, Tret>(Func<T, Tret> f)
+           public Dictionary<MethodInfo, ProxyContent> Methods;
+
+        public SelectMethodProxy(Dictionary<MethodInfo, ProxyContent> m){
+            this.Methods = m;
+
+        }
+
+     
+
+        public FluidProxyBuilder<T> On<Tin, Tret>(Func<Tin, Tret> f)
         {
             if (!Methods.ContainsKey(f.Method)) throw new ArgumentException();
 
-            return new FluidProxyBuilder(Methods, f.Method);
+            return new FluidProxyBuilder<T>(Methods, f.Method);
         }
 
     }
 
-    public class FluidProxyBuilder : SelectMethodProxy
+    public class FluidProxyBuilder<T> : SelectMethodProxy<T>
     {
        
-        private MethodInfo Selected;
-
-        public FluidProxyBuilder(Dictionary<MethodInfo, ProxyContent> Methods, MethodInfo m)
+        public MethodInfo Selected;
+        
+        
+        public FluidProxyBuilder(Dictionary<MethodInfo, ProxyContent> Methods, MethodInfo m) : base(Methods)
         {
            
-            base.Methods = Methods;
             this.Selected = m;
+        }
+
+        public FluidProxyBuilder<T> DoBefore<T1>(Action<T1> a){
+            Methods[Selected].DoBefore += args => a.Invoke((T1)args[0]);
+            return this;
+        }
+
+        public FluidProxyBuilder<T> DoAfter<T1>(Action<T1> a)
+        {
+            Methods[Selected].DoAfter += args => a.Invoke((T1)args[0]);
+            return this;
+        }
+
+        public FluidProxyBuilder<T> Replace<T1>(Delegate d)
+        {
+            Methods[Selected].Replace = d;
+            
+            return this;
+        }
+
+        public T Make()
+        {
+            return DynamicProxyFactory.MakeProxy<T>((T)Activator.CreateInstance(t, new object[] { new myInterceptor(Methods) });
         }
 
     }

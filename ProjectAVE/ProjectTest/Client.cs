@@ -55,7 +55,7 @@ namespace ProjectTest
             string s = p.Operation(
              new Dictionary<int, string>());
 
-            Func<String, int> f = real.DoIt;
+           
         }
     }
 }
