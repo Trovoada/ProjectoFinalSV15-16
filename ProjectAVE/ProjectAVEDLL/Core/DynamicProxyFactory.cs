@@ -7,6 +7,7 @@ using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using ProjectAVE.Entities;
+using ProjectAVEDLL.Entities; 
 using System.Threading;
 namespace ProjectAVE.Entities
 {
@@ -276,115 +277,6 @@ namespace ProjectAVE.Entities
                 toRet.Add(m, new ProxyContent());
             return new SelectMethodProxy<T>(toRet);
 
-        }
-
-    }
-
-   public  class ProxyContent
-    {
-       public Delegate DoBefore;
-       public Delegate Replace;
-       public Delegate DoAfter;
-
-    }
-
-    public class SelectMethodProxy<T>
-    {
-
-           public Dictionary<MethodInfo, ProxyContent> Methods;
-
-        public SelectMethodProxy(Dictionary<MethodInfo, ProxyContent> m){
-            this.Methods = m;
-
-        }
-
-     
-
-        public FluidProxyBuilder<T> On<Tin, Tret>(Func<Tin, Tret> f)
-        {
-            if (!Methods.ContainsKey(f.Method)) throw new ArgumentException();
-
-            return new FluidProxyBuilder<T>(Methods, f.Method);
-        }
-
-        public FluidProxyBuilder<T> On<T1, T2>(Action<T1, T2> f)
-        {
-            if (!Methods.ContainsKey(f.Method)) throw new ArgumentException();
-
-            return new FluidProxyBuilder<T>(Methods, f.Method);
-        }
-
-    }
-    public class HandlerM : IInvocationHandler 
-    {
-        Dictionary<MethodInfo, ProxyContent> Methods;
-        public HandlerM(Dictionary<MethodInfo, ProxyContent> Methods)
-        {
-            this.Methods = Methods;
-        }
-        public object OnCall(CallInfo info)
-        {
-            MethodInfo methodinf = info.TargetMethod;
-            ProxyContent proxyCont = Methods[methodinf];
-            ParameterInfo [] pInfo = methodinf.GetParameters();
-          
-            object res;
-            if (proxyCont.DoBefore!=null)
-                proxyCont.DoBefore.DynamicInvoke(info.Parameters);
-            if (proxyCont.Replace!=null)
-                res = proxyCont.Replace.DynamicInvoke(info.Parameters);
-            else
-                res = info.TargetMethod.Invoke(
-                                    info.Target,
-                                    info.Parameters);
-            if(proxyCont.DoAfter!=null)
-             proxyCont.DoAfter.DynamicInvoke(info.Parameters);
-            return res;
-            
-        }
-    }
-
-    public class FluidProxyBuilder<T> : SelectMethodProxy<T>
-    {
-       
-        public MethodInfo Selected;
-        
-        
-        public FluidProxyBuilder(Dictionary<MethodInfo, ProxyContent> Methods, MethodInfo m) : base(Methods)
-        {
-           
-            this.Selected = m;
-        }
-
-        public FluidProxyBuilder<T> DoBefore<T1>(Action<T1> a){
-
-            Methods[Selected].DoBefore = Delegate.Combine(Methods[Selected].DoBefore, a);// += args => a.Invoke((T1)args[0]);
-            return this;
-        }
-
-        public FluidProxyBuilder<T> DoAfter<T1>(Action<T1> a)
-        {
-            Methods[Selected].DoAfter = Delegate.Combine(Methods[Selected].DoAfter, a);
-            return this;
-        }
-
-        public FluidProxyBuilder<T> Replace< T1,  T2>(Func<T1, T2> d)
-        {
-            Methods[Selected].Replace = d;
-            
-            return this;
-        }
-
-        public FluidProxyBuilder<T> Replace<T1, T2>(Action<T1, T2> d)
-        {
-            Methods[Selected].Replace = d;
-
-            return this;
-        }
-
-        public T Make()
-        {
-            return DynamicProxyFactory.MakeProxy<T>((T)Activator.CreateInstance(typeof(T)),  new HandlerM(Methods));
         }
 
     }

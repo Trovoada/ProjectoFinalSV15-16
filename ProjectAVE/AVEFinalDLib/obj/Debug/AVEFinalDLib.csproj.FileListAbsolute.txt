@@ -1,0 +1,4 @@
+C:\Users\packardbell\Documents\5º - Semestre\AVE\Trabalho Final\Git - AVE\workRepo\ProjectAVE\AVEFinalDLib\bin\Debug\AVEFinalDLib.dll
+C:\Users\packardbell\Documents\5º - Semestre\AVE\Trabalho Final\Git - AVE\workRepo\ProjectAVE\AVEFinalDLib\bin\Debug\AVEFinalDLib.pdb
+C:\Users\packardbell\Documents\5º - Semestre\AVE\Trabalho Final\Git - AVE\workRepo\ProjectAVE\AVEFinalDLib\obj\Debug\AVEFinalDLib.dll
+C:\Users\packardbell\Documents\5º - Semestre\AVE\Trabalho Final\Git - AVE\workRepo\ProjectAVE\AVEFinalDLib\obj\Debug\AVEFinalDLib.pdb

@@ -9,30 +9,6 @@ using System.Reflection;
 using ProjectAVEDLL.Entities;
 namespace ProjectTest
 {
-
-    /****************TEST***************/
-    public class Foo
-    {
-        public virtual int DoIt(String v)
-        {
-            Console.WriteLine(
-            "AClass.DoIt() with {0}",
-            v
-            );
-            return v.Length;
-        }
-
-
-     
-    }
-
-    public interface IHelper
-    {
-        string Operation(
-        IDictionary<int, string> param);
-    }
-
-
     class Client
     {
         static void Main(string[] args)
@@ -71,3 +47,18 @@ namespace ProjectTest
         }
     }
 }
+/****************TEST***************/
+//public class Foo
+//{
+//    public virtual int DoIt(String v)
+//    {
+//        Console.WriteLine(
+//        "AClass.DoIt() with {0}",
+//        v
+//        );
+//        return v.Length;
+//    }
+
+
+
+//}

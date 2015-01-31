@@ -39,15 +39,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entities\MockInterceptor.cs" />
-    <Compile Include="Entities\Proxy.cs" />
-    <Compile Include="Entities\RealSubject.cs" />
+    <Compile Include="Core\FluidProxyBuilder.cs" />
+    <Compile Include="Core\HandlerM.cs" />
+    <Compile Include="Core\MockInterceptor.cs" />
+    <Compile Include="Core\ProxyContent.cs" />
+    <Compile Include="Core\SelectMethodProxy.cs" />
     <Compile Include="Interfaces\Subject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Entities\CallInfo.cs" />
-    <Compile Include="Entities\DynamicProxyFactory.cs" />
+    <Compile Include="Core\CallInfo.cs" />
+    <Compile Include="Core\DynamicProxyFactory.cs" />
     <Compile Include="Interfaces\IInvoctionHandler.cs" />
-    <Compile Include="Entities\LoggerInterceptor.cs" />
+    <Compile Include="Core\LoggerInterceptor.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

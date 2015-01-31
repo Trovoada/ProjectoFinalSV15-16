@@ -58,6 +58,10 @@
       <Project>{ca3c168d-6fc3-4f33-93fb-591a7b53d723}</Project>
       <Name>ProjectAVEDLL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ProjectTest\ProjectTest.csproj">
+      <Project>{baaf694a-cb85-4348-9b11-1ef74bdd97f5}</Project>
+      <Name>ProjectTest</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
