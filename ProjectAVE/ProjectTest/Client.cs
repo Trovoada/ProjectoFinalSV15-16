@@ -39,11 +39,16 @@ namespace ProjectTest
                                             .DoBefore<String>(ss => Console.WriteLine(ss))
                                             .DoAfter<String>(ss=>Console.WriteLine(ss.GetType().Name))
                                            // .Replace<String,int>(ss=>ss.Length * 5)
+                                           .On<String, int>(real.DoIt2)
+                                           .DoBefore<String>(ss => Console.WriteLine(ss))
+                                           //.On<String, int>(real.DoIt)
+                                           //.DoBefore<String>(ss => Console.WriteLine(ss+" ola"))
                                             .Make();
 
 
             Console.WriteLine(test.DoIt("Adeus"));
-
+            Console.WriteLine(test.DoIt2("ola"));
+            test.ToString();
         }
     }
 }

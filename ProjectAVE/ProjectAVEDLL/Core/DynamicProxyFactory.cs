@@ -274,7 +274,7 @@ namespace ProjectAVE.Entities
             IEnumerable<MethodInfo> em = ms.AsQueryable().Where(m => m.IsVirtual);
             Dictionary<MethodInfo, ProxyContent> toRet = new Dictionary<MethodInfo, ProxyContent>();
             foreach (MethodInfo m in em)
-                toRet.Add(m, new ProxyContent());
+                toRet.Add(m, null);
             return new SelectMethodProxy<T>(toRet);
 
         }

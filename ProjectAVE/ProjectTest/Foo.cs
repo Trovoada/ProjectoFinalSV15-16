@@ -17,6 +17,14 @@ namespace ProjectTest
             return v.Length;
         }
 
+        public virtual int DoIt2(String v)
+        {
+            Console.WriteLine(
+            "BClass.DoIt() with {0}",
+            v
+            );
+            return v.Length;
+        }
 
 
     }

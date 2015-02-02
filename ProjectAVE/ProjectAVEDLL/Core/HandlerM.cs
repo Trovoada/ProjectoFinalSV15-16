@@ -22,6 +22,12 @@ namespace ProjectAVEDLL.Entities
             ParameterInfo[] pInfo = methodinf.GetParameters();
 
             object res;
+
+            if (proxyCont == null) 
+                return info.TargetMethod.Invoke(
+                                    info.Target,
+                                    info.Parameters);
+           
             if (proxyCont.DoBefore != null)
                 proxyCont.DoBefore.DynamicInvoke(info.Parameters);
             if (proxyCont.Replace != null)

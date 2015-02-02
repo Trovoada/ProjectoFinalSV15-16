@@ -20,17 +20,24 @@ namespace ProjectAVEDLL.Entities
 
         }
 
-        public FluidProxyBuilder<T> On<Tin, Tret>(Func<Tin, Tret> f)
+        public virtual FluidProxyBuilder<T> On<Tin, Tret>(Func<Tin, Tret> f)
         {
             if (!Methods.ContainsKey(f.Method)) throw new ArgumentException();
-
+            Methods[f.Method] = new ProxyContent();
             return new FluidProxyBuilder<T>(Methods, f.Method);
         }
 
-        public FluidProxyBuilder<T> On<T1, T2>(Action<T1, T2> f)
+        public virtual FluidProxyBuilder<T> On<Tin1, Tin2, Tret>(Func<Tin1, Tin2, Tret> f)
         {
             if (!Methods.ContainsKey(f.Method)) throw new ArgumentException();
+            Methods[f.Method] = new ProxyContent();
+            return new FluidProxyBuilder<T>(Methods, f.Method);
+        }
 
+        public virtual FluidProxyBuilder<T> On<T1, T2>(Action<T1, T2> f)
+        {
+            if (!Methods.ContainsKey(f.Method)) throw new ArgumentException();
+            Methods[f.Method] = new ProxyContent();
             return new FluidProxyBuilder<T>(Methods, f.Method);
         }
 
