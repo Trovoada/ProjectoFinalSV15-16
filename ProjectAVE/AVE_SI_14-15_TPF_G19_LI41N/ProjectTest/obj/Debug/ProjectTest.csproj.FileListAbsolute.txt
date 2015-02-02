@@ -1,0 +1,20 @@
+C:\Users\packardbell\Documents\5º - Semestre\AVE\Trabalho Final\Git - AVE\ProjectAVE\ProjectTest\bin\Debug\ProjectTest.exe.config
+C:\AVE\ave\ProjectAVE\ProjectTest\bin\Debug\ProjectTest.exe.config
+C:\AVE\ave\ProjectAVE\ProjectTest\bin\Debug\ProjectTest.exe
+C:\AVE\ave\ProjectAVE\ProjectTest\bin\Debug\ProjectTest.pdb
+C:\AVE\ave\ProjectAVE\ProjectTest\bin\Debug\ProjectAVEDLL.dll
+C:\AVE\ave\ProjectAVE\ProjectTest\bin\Debug\ProjectAVEDLL.pdb
+C:\AVE\ave\ProjectAVE\ProjectTest\obj\Debug\ProjectTest.csprojResolveAssemblyReference.cache
+C:\AVE\ave\ProjectAVE\ProjectTest\obj\Debug\ProjectTest.exe
+C:\AVE\ave\ProjectAVE\ProjectTest\obj\Debug\ProjectTest.pdb
+C:\Users\packardbell\Documents\5º - Semestre\AVE\Trabalho Final\Git - AVE\workRepo\ProjectAVE\ProjectTest\bin\Debug\ProjectTest.exe.config
+C:\Users\packardbell\Documents\5º - Semestre\AVE\Trabalho Final\Git - AVE\workRepo\ProjectAVE\ProjectTest\bin\Debug\ProjectTest.exe
+C:\Users\packardbell\Documents\5º - Semestre\AVE\Trabalho Final\Git - AVE\workRepo\ProjectAVE\ProjectTest\bin\Debug\ProjectTest.pdb
+C:\Users\packardbell\Documents\5º - Semestre\AVE\Trabalho Final\Git - AVE\workRepo\ProjectAVE\ProjectTest\bin\Debug\ProjectAVEDLL.dll
+C:\Users\packardbell\Documents\5º - Semestre\AVE\Trabalho Final\Git - AVE\workRepo\ProjectAVE\ProjectTest\bin\Debug\ProjectAVEDLL.pdb
+C:\Users\packardbell\Documents\5º - Semestre\AVE\Trabalho Final\Git - AVE\workRepo\ProjectAVE\ProjectTest\obj\Debug\ProjectTest.csprojResolveAssemblyReference.cache
+C:\Users\packardbell\Documents\5º - Semestre\AVE\Trabalho Final\Git - AVE\workRepo\ProjectAVE\ProjectTest\obj\Debug\ProjectTest.exe
+C:\Users\packardbell\Documents\5º - Semestre\AVE\Trabalho Final\Git - AVE\workRepo\ProjectAVE\ProjectTest\obj\Debug\ProjectTest.pdb
+C:\Users\packardbell\Documents\5º - Semestre\AVE\Trabalho Final\Git - AVE\workRepo\ProjectAVE\AVE_SI_14-15_TPF_G19_LI41N\ProjectTest\bin\Debug\ProjectTest.exe.config
+C:\Users\packardbell\Documents\5º - Semestre\AVE\Trabalho Final\Git - AVE\workRepo\ProjectAVE\AVE_SI_14-15_TPF_G19_LI41N\ProjectTest\obj\Debug\ProjectTest.exe
+C:\Users\packardbell\Documents\5º - Semestre\AVE\Trabalho Final\Git - AVE\workRepo\ProjectAVE\AVE_SI_14-15_TPF_G19_LI41N\ProjectTest\obj\Debug\ProjectTest.pdb

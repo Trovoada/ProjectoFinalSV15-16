@@ -52,18 +52,4 @@ namespace ProjectTest
         }
     }
 }
-/****************TEST***************/
-//public class Foo
-//{
-//    public virtual int DoIt(String v)
-//    {
-//        Console.WriteLine(
-//        "AClass.DoIt() with {0}",
-//        v
-//        );
-//        return v.Length;
-//    }
 
-
-
-//}

@@ -1,9 +1,0 @@
-C:\Users\packardbell\Documents\5º - Semestre\AVE\Trabalho Final\Git - AVE\workRepo\ProjectAVE\AVEUnitTest\bin\Debug\AVEUnitTest.dll
-C:\Users\packardbell\Documents\5º - Semestre\AVE\Trabalho Final\Git - AVE\workRepo\ProjectAVE\AVEUnitTest\bin\Debug\AVEUnitTest.pdb
-C:\Users\packardbell\Documents\5º - Semestre\AVE\Trabalho Final\Git - AVE\workRepo\ProjectAVE\AVEUnitTest\bin\Debug\ProjectAVEDLL.dll
-C:\Users\packardbell\Documents\5º - Semestre\AVE\Trabalho Final\Git - AVE\workRepo\ProjectAVE\AVEUnitTest\bin\Debug\ProjectTest.exe
-C:\Users\packardbell\Documents\5º - Semestre\AVE\Trabalho Final\Git - AVE\workRepo\ProjectAVE\AVEUnitTest\bin\Debug\ProjectAVEDLL.pdb
-C:\Users\packardbell\Documents\5º - Semestre\AVE\Trabalho Final\Git - AVE\workRepo\ProjectAVE\AVEUnitTest\bin\Debug\ProjectTest.pdb
-C:\Users\packardbell\Documents\5º - Semestre\AVE\Trabalho Final\Git - AVE\workRepo\ProjectAVE\AVEUnitTest\obj\Debug\AVEUnitTest.csprojResolveAssemblyReference.cache
-C:\Users\packardbell\Documents\5º - Semestre\AVE\Trabalho Final\Git - AVE\workRepo\ProjectAVE\AVEUnitTest\obj\Debug\AVEUnitTest.dll
-C:\Users\packardbell\Documents\5º - Semestre\AVE\Trabalho Final\Git - AVE\workRepo\ProjectAVE\AVEUnitTest\obj\Debug\AVEUnitTest.pdb

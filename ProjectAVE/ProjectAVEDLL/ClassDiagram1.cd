@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="ProjectAVE.Entities.CallInfo">
+    <Position X="4.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAEAAAAAAAAACAAQAAAAAAAAIAgAAAAAAA=</HashCode>
+      <FileName>Core\CallInfo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProjectAVE.Entities.DynamicProxyFactory">
+    <Position X="6.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAiAAAAAAAAAAAAAAEAAAAAABAAAAAAAA=</HashCode>
+      <FileName>Core\DynamicProxyFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProjectAVE.Entities.LoggerInterceptor" BaseTypeListCollapsed="true">
+    <Position X="4.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAAAgAAAAAAAAAAAAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\LoggerInterceptor.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="ProjectAVE.Entities.MockInterceptor" BaseTypeListCollapsed="true">
+    <Position X="8.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\MockInterceptor.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="ProjectAVEDLL.Entities.FluidProxyBuilder&lt;T&gt;">
+    <Position X="2.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAIAAKI=</HashCode>
+      <FileName>Core\FluidProxyBuilder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProjectAVEDLL.Entities.HandlerM" BaseTypeListCollapsed="true">
+    <Position X="8.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAEA=</HashCode>
+      <FileName>Core\HandlerM.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="ProjectAVEDLL.Entities.ProxyContent">
+    <Position X="7" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAACA=</HashCode>
+      <FileName>Core\ProxyContent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProjectAVEDLL.Entities.SelectMethodProxy&lt;T&gt;">
+    <Position X="2.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMA=</HashCode>
+      <FileName>Core\SelectMethodProxy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="ProjectAVEDLL.Interfaces.Subject&lt;T&gt;">
+    <Position X="0.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\Subject.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ProjectAVE.Entities.IInvocationHandler">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IInvoctionHandler.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
